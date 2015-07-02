@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -81,12 +82,19 @@ public class MainActivity extends ActionBarActivity {
             userTrips.add(c.getString(c.getColumnIndex(SQLiteHelper.TRIP_NAME)));
         }
 
-
-
         if(no_trips_layout.getVisibility() == View.GONE){
             ArrayAdapter tripsListAdapter = new ArrayAdapter(this,
                     android.R.layout.simple_list_item_1, userTrips);
             trips_list.setAdapter(tripsListAdapter);
+
+            trips_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(MainActivity.this,PlaceWeatherDetailsActivity.class);
+                    intent.putExtra("trip_name",userTrips.get(position));
+                    startActivity(intent);
+                }
+            });
         }
 
     }

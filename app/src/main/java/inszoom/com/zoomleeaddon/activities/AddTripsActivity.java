@@ -112,8 +112,6 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
             Toast.makeText(this,"Invalid inputs",Toast.LENGTH_SHORT).show();
         }
 
-
-
     }
 
     private void updateListView(){
@@ -122,8 +120,6 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
 
         String getPlaces = "select * from " + SQLiteHelper.TABLE_NAME + " where "+ SQLiteHelper.TRIP_NAME+" = 'Trip1'";
         Cursor c = sqLiteDatabaseReadable.rawQuery(getPlaces, null);
-
-
 
         if(c.moveToFirst()){
             tripPlaces.add(c.getString(c.getColumnIndex(SQLiteHelper.PLACE_NAME)));
@@ -158,7 +154,12 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
-            datePicked = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
+            if(month+1<10){
+                datePicked = String.valueOf(year)+"-0"+String.valueOf(month+1)+"-"+String.valueOf(day);
+            }else{
+                datePicked = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
+            }
+
             add_trips_activity_place_date.setText(datePicked);
         }
 
