@@ -16,7 +16,7 @@
         android:id="@+id/add_trips_activity_place_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select date:"/>
+        android:text="Select date"/>
 
     <Button
         android:id="@+id/add_trips_activity_add_btn"

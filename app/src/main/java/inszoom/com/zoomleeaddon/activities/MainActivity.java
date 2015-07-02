@@ -81,13 +81,17 @@ public class MainActivity extends ActionBarActivity {
             userTrips.add(c.getString(c.getColumnIndex(SQLiteHelper.TRIP_NAME)));
         }
 
-        if(no_trips_layout.getVisibility() != View.GONE){
+
+
+        if(no_trips_layout.getVisibility() == View.GONE){
             ArrayAdapter tripsListAdapter = new ArrayAdapter(this,
                     android.R.layout.simple_list_item_1, userTrips);
             trips_list.setAdapter(tripsListAdapter);
         }
 
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
