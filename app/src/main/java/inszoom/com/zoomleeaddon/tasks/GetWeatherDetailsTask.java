@@ -100,7 +100,7 @@ public class GetWeatherDetailsTask extends AsyncTask<String,String,List<String>>
             final TextView summaryTextView = summaryTextViewReference.get();
 
             if(tempTextView != null && summaryTextView != null){
-                tempTextView.setText(s.get(0));
+                tempTextView.setText(s.get(0)+" "+"\u00b0"+"C");
                 summaryTextView.setText(s.get(1));
             }
         }

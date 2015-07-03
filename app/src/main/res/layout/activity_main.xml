@@ -35,9 +35,9 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
-        android:src="@mipmap/ic_launcher"
-        fab:fab_colorNormal="#b3b3b3"
-        fab:fab_colorPressed="#e3e3e3"
+        android:src="@drawable/fab_add"
+        fab:fab_colorNormal="#F44336"
+        fab:fab_colorPressed="#F44336"
       />
 
 

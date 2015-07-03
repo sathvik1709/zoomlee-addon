@@ -46,6 +46,7 @@ public class PlaceDetailsListAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.place_details_list_item,null);
         TextView place_details_list_item_place_name = (TextView) convertView.findViewById(R.id.place_details_list_item_place_name);
+        place_details_list_item_place_name.setMaxLines(1);
         TextView place_details_list_item_visit_date = (TextView) convertView.findViewById(R.id.place_details_list_item_visit_date);
 
         TextView place_details_list_item_temperature = (TextView) convertView.findViewById(R.id.place_details_list_item_temperature);
