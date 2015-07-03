@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import inszoom.com.zoomleeaddon.R;
+import inszoom.com.zoomleeaddon.tasks.GetWeatherDetailsTask;
 
 /**
  * Created by Sathvik on 02/07/15.
@@ -50,9 +51,9 @@ public class PlaceDetailsListAdapter extends BaseAdapter {
         TextView place_details_list_item_temperature = (TextView) convertView.findViewById(R.id.place_details_list_item_temperature);
         TextView place_details_list_item_weather_summary = (TextView) convertView.findViewById(R.id.place_details_list_item_weather_summary);
 
-       /* GetWeatherDetailsTask getWeatherDetailsTask =
+        GetWeatherDetailsTask getWeatherDetailsTask =
                 new GetWeatherDetailsTask(place_details_list_item_temperature,place_details_list_item_weather_summary);
-        getWeatherDetailsTask.execute(placeDetailsList.get(position).getLatLng(),placeDetailsList.get(position).getDate());*/
+        getWeatherDetailsTask.execute(placeDetailsList.get(position).getLatLng(),placeDetailsList.get(position).getDate());
 
         place_details_list_item_place_name.setText(placeDetailsList.get(position).getPlaceName());
         place_details_list_item_visit_date.setText(placeDetailsList.get(position).getDate());

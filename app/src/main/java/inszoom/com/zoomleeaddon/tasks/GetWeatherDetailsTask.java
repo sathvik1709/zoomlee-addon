@@ -49,7 +49,7 @@ public class GetWeatherDetailsTask extends AsyncTask<String,String,List<String>>
 
         HttpGet httpGet = new HttpGet("https://api.forecast.io/forecast/78b85733d202d012dbf8513150f28a0e/" +
                 params[0] +
-                ","+params[1]+"T12:00:00-0400");
+                ","+params[1]+"T12:00:00-0400"+"?units=si");
         Log.d("inputs",params[0]+","+params[1]);
 
         try {

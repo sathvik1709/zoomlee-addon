@@ -37,7 +37,9 @@ public class GetLatLngTask extends AsyncTask<String,String,String> {
 
         StringBuilder builder = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet("http://maps.google.com/maps/api/geocode/json?address="+params[0].replaceAll("\\s+","")+"&sensor=false");
+        String url = "http://maps.google.com/maps/api/geocode/json?address="+params[0].replaceAll("\\s+","")+"&sensor=false";
+        Log.d("ss",url);
+        HttpGet httpGet = new HttpGet(url);
         try {
             HttpResponse response = client.execute(httpGet);
             StatusLine statusLine = response.getStatusLine();
