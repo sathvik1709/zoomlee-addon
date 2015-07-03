@@ -66,12 +66,9 @@ public class GetWeatherDetailsTask extends AsyncTask<String,String,List<String>>
                 }
 
                 //json parsing
-
                 JSONObject jsonObject = new JSONObject(builder.toString());
 
-
-
-                Log.d("temp",String.valueOf(jsonObject.getJSONObject("currently").getDouble("temperature")));
+                //Log.d("temp",String.valueOf(jsonObject.getJSONObject("currently").getDouble("temperature")));
 
                 resList.add(String.valueOf(jsonObject.getJSONObject("currently").getDouble("temperature")));
                 resList.add(String.valueOf(jsonObject.getJSONObject("currently").getString("summary")));
@@ -89,12 +86,15 @@ public class GetWeatherDetailsTask extends AsyncTask<String,String,List<String>>
             e.printStackTrace();
         }
 
-        return null;
+        resList.add("no info available");
+        resList.add("no info available");
+        return resList;
     }
 
     @Override
     protected void onPostExecute(List<String> s) {
         super.onPostExecute(s);
+
         if (tempTextViewReference != null && summaryTextViewReference != null) {
             final TextView tempTextView = tempTextViewReference.get();
             final TextView summaryTextView = summaryTextViewReference.get();

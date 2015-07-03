@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     SQLiteHelper sqLiteHelper;
     SQLiteDatabase sqLiteDatabase;
     List<String> userTrips;
+    int currentLength = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +49,24 @@ public class MainActivity extends ActionBarActivity {
         //initialize variables
         userTrips = new ArrayList<String>();
 
-        //
-        getUserTripList();
+
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,AddTripsActivity.class);
+                intent.putExtra("cur_length",String.valueOf(currentLength+1));
                 startActivity(intent);
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        userTrips.clear();
+        getUserTripList();
     }
 
     @Override
@@ -72,6 +80,8 @@ public class MainActivity extends ActionBarActivity {
 
         String groupByTrips = "select * from " + SQLiteHelper.TABLE_NAME + " group by "+ SQLiteHelper.TRIP_NAME;
         Cursor c = sqLiteDatabase.rawQuery(groupByTrips, null);
+
+        currentLength = c.getCount();
 
         if(c.moveToFirst()){
             userTrips.add(c.getString(c.getColumnIndex(SQLiteHelper.TRIP_NAME)));

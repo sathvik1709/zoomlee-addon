@@ -3,6 +3,7 @@ package inszoom.com.zoomleeaddon.activities;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,10 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import inszoom.com.zoomleeaddon.R;
+import inszoom.com.zoomleeaddon.adapter.PlacesAutoCompleteAdapter;
 import inszoom.com.zoomleeaddon.database.SQLiteHelper;
 import inszoom.com.zoomleeaddon.taskResponce.GetLatLngTaskResponce;
 import inszoom.com.zoomleeaddon.tasks.GetLatLngTask;
@@ -31,19 +34,19 @@ import inszoom.com.zoomleeaddon.tasks.GetLatLngTask;
 
 public class AddTripsActivity extends ActionBarActivity implements GetLatLngTaskResponce {
 
-    EditText add_trips_activity_place_name;
     static Button add_trips_activity_place_date;
     Button add_trips_activity_add_btn;
     ListView add_trips_activity_temp_list_places;
+    AutoCompleteTextView add_trips_activity_place_name;
 
     SQLiteHelper sqLiteHelper;
-    SQLiteDatabase sqLiteDatabaseReadable;
+
     SQLiteDatabase sqLiteDatabaseWritable;
 
     static String datePicked;
+    String currentLength;
 
     GetLatLngTask getLatLngTask;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +54,26 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
         setContentView(R.layout.activity_add_trips);
 
         // initializing views
-        add_trips_activity_place_name = (EditText) findViewById(R.id.add_trips_activity_place_name);
         add_trips_activity_place_date = (Button) findViewById(R.id.add_trips_activity_place_date);
         add_trips_activity_add_btn = (Button) findViewById(R.id.add_trips_activity_add_btn);
         add_trips_activity_temp_list_places = (ListView) findViewById(R.id.add_trips_activity_temp_list_places);
+        add_trips_activity_place_name = (AutoCompleteTextView) findViewById(R.id.add_trips_activity_place_name);
+        add_trips_activity_place_name.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.list_item));
 
         //initialize database classes
         sqLiteHelper = new SQLiteHelper(this);
         sqLiteDatabaseWritable = sqLiteHelper.getWritableDatabase();
-        sqLiteDatabaseReadable = sqLiteHelper.getReadableDatabase();
 
+        //get intents
+        Intent intent = getIntent();
+        currentLength = intent.getStringExtra("cur_length");
+
+        add_trips_activity_place_name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                add_trips_activity_place_name.setText(parent.getItemAtPosition(position).toString());
+            }
+        });
 
         add_trips_activity_place_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +94,8 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
 
     }
 
+
+
     private void executeGetLatLng(){
         getLatLngTask = new GetLatLngTask();
         getLatLngTask.responce = this;
@@ -95,7 +110,7 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
                 && res != null && !res.equalsIgnoreCase("no")){
 
             ContentValues cv =  new ContentValues();
-            cv.put(SQLiteHelper.TRIP_NAME, "Trip1");
+            cv.put(SQLiteHelper.TRIP_NAME, "Trip"+currentLength);
             cv.put(SQLiteHelper.PLACE_NAME,add_trips_activity_place_name.getText().toString());
             cv.put(SQLiteHelper.DATE, datePicked);
             cv.put(SQLiteHelper.LAT, res.split(",")[0]);
@@ -116,9 +131,12 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
 
     private void updateListView(){
 
+        SQLiteDatabase sqLiteDatabaseReadable;
+        sqLiteDatabaseReadable = sqLiteHelper.getReadableDatabase();
+
         List<String> tripPlaces = new ArrayList<String>();
 
-        String getPlaces = "select * from " + SQLiteHelper.TABLE_NAME + " where "+ SQLiteHelper.TRIP_NAME+" = 'Trip1'";
+        String getPlaces = "select * from " + SQLiteHelper.TABLE_NAME + " where "+ SQLiteHelper.TRIP_NAME+" = 'Trip"+currentLength+"'";
         Cursor c = sqLiteDatabaseReadable.rawQuery(getPlaces, null);
 
         if(c.moveToFirst()){
@@ -162,7 +180,6 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
 
             add_trips_activity_place_date.setText(datePicked);
         }
-
     }
 
     @Override
@@ -186,4 +203,6 @@ public class AddTripsActivity extends ActionBarActivity implements GetLatLngTask
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

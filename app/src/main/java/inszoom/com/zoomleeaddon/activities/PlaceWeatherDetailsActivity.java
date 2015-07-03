@@ -52,7 +52,7 @@ public class PlaceWeatherDetailsActivity extends ActionBarActivity {
 
         List<PlaceDetails> placeDetailsList = new ArrayList<PlaceDetails>();
 
-        String getPlaces = "select * from " + SQLiteHelper.TABLE_NAME + " where "+ SQLiteHelper.TRIP_NAME+" = 'Trip1'";
+        String getPlaces = "select * from " + SQLiteHelper.TABLE_NAME + " where "+ SQLiteHelper.TRIP_NAME+" = '"+placeFilter+"'";
         Cursor c = sqLiteDatabase.rawQuery(getPlaces, null);
 
         if(c.moveToFirst()){
